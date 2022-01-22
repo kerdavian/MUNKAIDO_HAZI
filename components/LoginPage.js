@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { signIn, signUp } from '../auth';
+import { signIn, signUp, resetPassword } from '../auth';
 import { createUserOnFirebase, getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
 
@@ -96,6 +96,25 @@ const LoginPage = props => {
               secureTextEntry={true}
               onChangeText={setPassword}
             />
+            {!isSignUpActive && (
+              <TouchableOpacity
+                style={[styles.forgotPassword]}
+                onPress={() => {
+                  if (email === '') {
+                    window.alert('Add meg az email címedet!');
+                  } else {
+                    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+                    if (!regex.test(email)) {
+                      window.alert('Az email cím nem megfelelő formátumú');
+                    } else {
+                      resetPassword(email);
+                    }
+                  }
+                }}>
+                <Text style={[styles.forgotPasswordText]}>Elfelejtett jelszó</Text>
+              </TouchableOpacity>
+            )}
+
             {isSignUpActive && (
               <TextInput
                 style={styles.input}
@@ -173,6 +192,15 @@ const styles = StyleSheet.create({
   },
   activeText: {
     color: '#ffffff',
+  },
+  forgotPassword: {
+    marginLeft: 'auto',
+    marginBottom: 10,
+  },
+  forgotPasswordText: {
+    fontStyle: 'italic',
+    fontSize: 15,
+    color: 'black',
   },
 });
 export default LoginPage;
