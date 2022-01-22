@@ -25,12 +25,6 @@ export default function StatusPage(props) {
     generateImage();
   };
 
-  const handleLogout = async () => {
-    await signOutUser();
-    await removeUserData();
-    props.setUserData(null);
-  };
-
   useEffect(() => {
     (async () => {
       const firebaseUser = await loginStatus();
@@ -45,8 +39,10 @@ export default function StatusPage(props) {
   return (
     <View style={styles.container}>
       <View style={styles.logoutSection}>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>Kijelentkezés</Text>
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={() => props.navigation.navigate('Beállítások')}>
+          <Text style={styles.logoutButtonText}>Beállítások</Text>
         </TouchableOpacity>
       </View>
       <Text style={styles.appTitle}>Szia {props.userData.name}!</Text>

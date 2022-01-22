@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
 import HistoryPage from './HistoryPage';
+import SettingsPage from './SettingsPage';
 import StatusPage from './StatusPage';
 
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,16 @@ function InnerPage(props) {
             <HistoryPage
               {...navigatorProps}
               userData={props.userData}
+              toggleUserState={props.toggleUserState}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Beállítások">
+          {navigatorProps => (
+            <SettingsPage
+              {...navigatorProps}
+              userData={props.userData}
+              setUserData={props.setUserData}
               toggleUserState={props.toggleUserState}
             />
           )}
