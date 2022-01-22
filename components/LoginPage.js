@@ -37,11 +37,17 @@ const LoginPage = props => {
 
   const register = async () => {
     await signUp(email, password);
+
     const initialUserData = {
       name: userName,
       email: email.toLowerCase(),
       currentState: 'out',
     };
+    if (password !== passwordConfirm) {
+      window.alert('A két jelszó nem egyezik');
+      this.setState({ loading: false });
+    }
+
     createUserOnFirebase(initialUserData);
     storeUserData(initialUserData);
     props.setUserData(initialUserData);
