@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 
+import trashIcon from '../assets/Trash_font_awesome.js';
 import { getHistory } from '../database';
 
 export default function HistoryPage(props) {
@@ -22,6 +24,12 @@ export default function HistoryPage(props) {
           ]}>
           {item.state === 'in' ? 'bejött' : 'távozott'}
         </Text>
+        if(index == 0)
+        {
+          <TouchableOpacity style={styles.historyTextContainer}>
+            <SvgXml xml={trashIcon} style={styles.removeButtonIcon} />
+          </TouchableOpacity>
+        }
       </View>
     </View>
   );
@@ -35,7 +43,11 @@ export default function HistoryPage(props) {
   }, []);
   return (
     <View style={styles.container}>
-      <FlatList data={history} renderItem={renderItem} keyExtractor={item => item.id} />
+      <FlatList
+        data={history}
+        renderItem={renderItem}
+        keyExtractor={(item, index => item.id, item.index)}
+      />
     </View>
   );
 }
@@ -72,5 +84,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  removeButtonIcon: {
+    fontSize: 16,
+    color: 'red',
   },
 });
